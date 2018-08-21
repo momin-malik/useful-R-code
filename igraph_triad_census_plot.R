@@ -1,8 +1,9 @@
 ############################################################################
 # This script that generates nice triad census dotplots, where the actual 
 # triad diagrams are plotted on the y-axis. 
-# Some plotting parameters may need tweaking based on the size of your triad 
-# census' statistics.
+# There's a lot to fix up, but the tedious work of figuring out the triads,
+# and laying them out as equilateral triangles is done. Figuring out the
+# plot layout is done, although maybe not quite right. 
 # (c) Momin M. Malik 2016
 # v1.0, 11 August 2016
 ############################################################################
@@ -10,7 +11,7 @@
 library(igraph)
 
 # Replace sample_gnm with your graph object
-g <- sample_gnm(15, 45, directed = TRUE)
+g <- sample_gnm(1000, 20000, directed = TRUE)
 
 census.triads <- rep(list(NA),16)
 names(census.triads) <- c("003","012","102","021D","021U","021C","111D","111U","030T","030C","201","120D","120U","120C","210","300")
@@ -52,8 +53,7 @@ layout <- t(matrix(c(c(-1/sqrt(3),0),c(0,1),c(1/sqrt(3),0)),nrow=2,ncol=3))
 triad.census <- triad.census(g)
 names(triad.census) <- names(census.triads)
 
-# Uncomment out pdf() and dev.off() to output diagram
-
+# NOTE: y-axis labels won't be aligned in RStudio in-line window. Expand or export.
 # pdf("triad.census.pdf",width=10,height=7.5)
 w <- 15 # Additional width past the first column
 h <- 19
@@ -71,19 +71,22 @@ for (i in 1:length(census.triads)) {
        vertex.label=NA,
        vertex.size=40,
        edge.arrow.width=1,
-       edge.arrow.size=.2,
+       edge.arrow.size=.075,
        edge.color="black",
-       edge.width=1.5,
+       edge.width=1,
        layout=layout,
        asp=1)
 }
 plot.new()
 plot.new()
 par(mar=c(4.5,0,1.5,0)) # bottom, left, top, right
-dotchart(log10(rev(triad.census)),xlim=c(.3,log10(10^8.1)),xaxt='n')
-orders <- 9
+par(font.axis = 2, xaxt = "n")
+dotchart(log10(rev(triad.census)), pt.cex=1, xlim = c(0, max(log10(triad.census))))
+par(font.axis = 2, xaxt = "s")
+orders <- ceiling(max(log10(rev(triad.census))))
 seq <- rep(c(1,2,5),orders)*rep(10^(0:(orders-1)),each=3)
-abline(v=log10(seq[-1]),col="lightgray",lty=2)
+segments(x0 = log10(seq), y0 = 0, y1 = 17, col="lightgray", lty=3)
+axis(1, labels = seq, at = log10(seq), cex.axis = 1, font = 1)
 plot.new()
 # dev.off()
 par(mar=c(5.1,4.1,4.1,2.1))
