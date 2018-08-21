@@ -1,4 +1,17 @@
+############################################################################
+# This script that generates nice triad census dotplots, where the actual 
+# triad diagrams are plotted on the y-axis. 
+# Some plotting parameters may need tweaking based on the size of your triad 
+# census' statistics.
+# (c) Momin M. Malik 2016
+# v1.0, 11 August 2016
+############################################################################
+
 library(igraph)
+
+# Replace sample_gnm with your graph object
+g <- sample_gnm(15, 45, directed = TRUE)
+
 census.triads <- rep(list(NA),16)
 names(census.triads) <- c("003","012","102","021D","021U","021C","111D","111U","030T","030C","201","120D","120U","120C","210","300")
 census.triads[["003"]]  <- graph.formula(1, 2, 3) # 1, 2, 3
@@ -35,8 +48,10 @@ for (i in 1:length(census.triads)) {
 par(mfrow=c(1,1))
 par(mar=c(5.1,4.1,4.1,2.1))
 
-triad.census <- triad.census(sample_gnm(15, 45, directed = TRUE))
+triad.census <- triad.census(g)
 names(triad.census) <- names(census.triads)
+
+# Uncomment out pdf() and dev.off() to output diagram
 
 # pdf("triad.census.pdf",width=10,height=7.5)
 w <- 15 # Additional width past the first column
