@@ -33,20 +33,21 @@ census.triads[["300"]]  <- graph.formula(1++2, 2++3, 1++3) # 1++2++3, 1++3
 
 layout <- t(matrix(c(c(-1/sqrt(3),0),c(0,1),c(1/sqrt(3),0)),nrow=2,ncol=3))
 
-par(mfrow=c(4,4))
-par(mar=c(.5,.5,.5,.5))
-for (i in 1:length(census.triads)) {
-  plot(census.triads[[i]],
-       # main=names(census.triads)[i],
-       vertex.color="black",
-       vertex.label=NA,
-       edge.arrow.width=1,
-       edge.color="black",
-       layout=layout,
-       asp=1)
-}
-par(mfrow=c(1,1))
-par(mar=c(5.1,4.1,4.1,2.1))
+# # Showing the triads of the census
+# par(mfrow=c(4,4))
+# par(mar=c(.5,.5,.5,.5))
+# for (i in 1:length(census.triads)) {
+#   plot(census.triads[[i]],
+#        # main=names(census.triads)[i],
+#        vertex.color="black",
+#        vertex.label=NA,
+#        edge.arrow.width=1,
+#        edge.color="black",
+#        layout=layout,
+#        asp=1)
+# }
+# par(mfrow=c(1,1))
+# par(mar=c(5.1,4.1,4.1,2.1))
 
 triad.census <- triad.census(g)
 names(triad.census) <- names(census.triads)
