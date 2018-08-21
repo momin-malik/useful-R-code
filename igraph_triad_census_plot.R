@@ -54,7 +54,7 @@ triad.census <- triad.census(g)
 names(triad.census) <- names(census.triads)
 
 # NOTE: y-axis labels won't be aligned in RStudio in-line window. Expand or export.
-# pdf("triad.census.pdf",width=10,height=7.5)
+pdf("triad.census.pdf", width=10, height = 7.5)
 w <- 15 # Additional width past the first column
 h <- 19
 rpad <- 1 # Subtracts from width on right side
@@ -71,7 +71,7 @@ for (i in 1:length(census.triads)) {
        vertex.label=NA,
        vertex.size=40,
        edge.arrow.width=1,
-       edge.arrow.size=.075,
+       edge.arrow.size=.25,
        edge.color="black",
        edge.width=1,
        layout=layout,
@@ -80,6 +80,7 @@ for (i in 1:length(census.triads)) {
 plot.new()
 plot.new()
 par(mar=c(4.5,0,1.5,0)) # bottom, left, top, right
+# dotchart(rev(triad.census))
 par(font.axis = 2, xaxt = "n")
 dotchart(log10(rev(triad.census)), pt.cex=1, xlim = c(0, max(log10(triad.census))))
 par(font.axis = 2, xaxt = "s")
@@ -88,6 +89,6 @@ seq <- rep(c(1,2,5),orders)*rep(10^(0:(orders-1)),each=3)
 segments(x0 = log10(seq), y0 = 0, y1 = 17, col="lightgray", lty=3)
 axis(1, labels = seq, at = log10(seq), cex.axis = 1, font = 1)
 plot.new()
-# dev.off()
+dev.off()
 par(mar=c(5.1,4.1,4.1,2.1))
 par(mfrow=c(1,1))
