@@ -1,7 +1,11 @@
-# This produces a dot plot (a horizontal histogram made with dots instead of bars)
-# for counts of triads in a graph. Helpfully, I generate pictures of the triads. 
-# This uses the network/sna libraries, rather than the igraph library. 
-# V1.0, by Momin M. Malik, August 11, 2016.
+############################################################################
+# This script that generates nice triad census dotplots, where the actual 
+# triad diagrams are plotted on the y-axis. 
+# The main version uses igraph, but this is an equivalent version in the
+# `network` and `sna` packages. Even less tested than the igraph version.
+# (c) Momin M. Malik 2016
+# v1.0, 11 August 2016
+############################################################################
 
 library(network)
 library(sna)
