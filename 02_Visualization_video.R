@@ -1,9 +1,20 @@
+# ORIGINAL: #
 #######################################################
-# This file produces an mp4, not HTML, video of an SABM set of simulated chains.
-# 
+# This file produces the video of an SABM set of simulated chains.
+# It relies on one sub-script, which is called individually (see "source").
 # author: jimi adams
 # last updated: 2018-09-13
 # source: https://journals.sagepub.com/doi/suppl/10.1177/2378023118816545/suppl_file/02_Visualization.R
+#######################################################
+
+#######################################################
+# This is a modification of the original script. This produces 
+# an mp4, not HTML, video of an SABM set of simulated chains.
+# It also adds in border color for the active node, and colors 
+# the active edge. 
+# 
+# CAUTION: Running this script requires ffmpeg, which can be
+# laborious to install. 
 # 
 # modified by: Momin M. Malik, 2018-12-14
 # "01_Model & Sim.R" available at
@@ -12,9 +23,11 @@
 
 #######################################################
 setwd("~/Documents/") # Insert appropriate directory with "01_Model & Sim.R", or its output
+# install.packages("RSiena")
+# install.packages("sna")
+# install.packages("lattice")
 library(RSiena)
 library(sna)
-# install.packages("lattice")
 library(lattice)  # for plotting
 
 source("01_Model & Sim.R")
@@ -58,6 +71,7 @@ colnames(beh) <- c("time", "node", "change")
 
 #######################################################
 ### Initializing the dynamic network object and some visual options to make that easily spotted.
+# install.packages("networkDynamic")
 library(networkDynamic)
 s50d <-networkDynamic(base.net=init, edge.toggles=toggles, create.TEAs=T)
 
