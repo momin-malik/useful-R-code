@@ -1,22 +1,29 @@
 #######################################################
-# This file produces the video of an SABM set of simulated chains.
-# It relies on one sub-script, which is called individually (see "source").
+# This file produces an mp4, not HTML, video of an SABM set of simulated chains.
+# 
 # author: jimi adams
 # last updated: 2018-09-13
+# source: https://journals.sagepub.com/doi/suppl/10.1177/2378023118816545/suppl_file/02_Visualization.R
+# 
+# modified by: Momin M. Malik, 2018-12-14
+# "01_Model & Sim.R" available at
+# https://journals.sagepub.com/doi/suppl/10.1177/2378023118816545/suppl_file/01_Model_and_Sim.R
 #######################################################
 
 #######################################################
-### First, we run the model that will be used.
-setwd("~/Documents/Articles/Networks and DSR/SIENA papers and dataset descriptions/SIENA animation")
+setwd("~/Documents/") # Insert appropriate directory with "01_Model & Sim.R", or its output
 library(RSiena)
 library(sna)
 # install.packages("lattice")
 library(lattice)  # for plotting
 
-load("SABM.RData")
-# setwd("C:/Users/jimia/Dropbox/SABM Viz/Socius") # PC
-# source("01_Model & Sim.R")
+source("01_Model & Sim.R")
 # df is the dataframe of output micro timesteps 
+
+## Alternatively, in the other script, run save.image("SABM.RData"), then
+# load("SABM.RData")
+
+
 #######################################################
 
 
