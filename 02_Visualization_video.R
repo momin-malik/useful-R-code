@@ -1,11 +1,26 @@
+#######################################################
 # ORIGINAL: #
 #######################################################
 # This file produces the video of an SABM set of simulated chains.
 # It relies on one sub-script, which is called individually (see "source").
 # author: jimi adams
 # last updated: 2018-09-13
+# 
+# 
 # source: https://journals.sagepub.com/doi/suppl/10.1177/2378023118816545/suppl_file/02_Visualization.R
+# 
+# Citation:
+# @article{adams2018,
+#   author = {{adams}, {jimi} and Schaefer, David R.},
+#   title ={Visualizing Stochastic Actor-based Model Microsteps},
+#   journal = {Socius: Sociological Research for a Dynamic World},
+#   volume = {4},
+#   year = {2018},
+#   doi = {10.1177/2378023118816545},
+# }
 #######################################################
+
+
 
 #######################################################
 # This is a modification of the original script. This produces 
@@ -19,6 +34,9 @@
 # modified by: Momin M. Malik, 2018-12-14
 # "01_Model & Sim.R" available at
 # https://journals.sagepub.com/doi/suppl/10.1177/2378023118816545/suppl_file/01_Model_and_Sim.R
+# 
+# Output video: https://youtu.be/7KJN94LritA
+# 
 #######################################################
 
 #######################################################
@@ -55,13 +73,13 @@ df$V6 <- as.numeric(df$V6)
 ### Because the nodes are indexed from 0, changing their IDs (now 1-50)
 df$V4 <- df$V4 + 1
 df$V5[which(df$V2==0)] <- df$V5[which(df$V2==0)] + 1 
-    # only change for network steps (retain 0s if behavior)
+# only change for network steps (retain 0s if behavior)
 
 ### Generating a matrix of network edge toggles
 df$id <- as.numeric(row.names(df)) # to get micro time step
 toggles <- df[,c(12,4,5)][which (df$V2==0 & df$V11==F),] 
-    # 12 is the time step, (4,5) is head, tail,  
-    # V2=0 is for network evaluations, V11=F is for CHANGES
+# 12 is the time step, (4,5) is head, tail,  
+# V2=0 is for network evaluations, V11=F is for CHANGES
 colnames(toggles) <- c("time", "tail", "head")
 
 ### Generating a matrix of behavior changes
@@ -145,4 +163,3 @@ saveVideo(render.animation(s50d,
                            main="SABM Micro Time Steps", render.cache='none'),
           other.opts = "-b 12000k",  # other.opts = "-pix_fmt yuv1080p -b 1200k"
           video.name="SABM_viz.mp4")
-
