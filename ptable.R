@@ -1,8 +1,8 @@
 ############################################################################
 # This makes STATA-like contingency tables, letting you see the counts and 
 # marginals at the same time. Currently only works for two variables. Also, 
-# I haven't test this, I gave up trying to everything at once so there's 
-# probably a more efficient way to do this. 
+# I haven't tested this, I gave up trying to do everything at once so there
+# is probably a more efficient way to do this. 
 # (c) Momin M. Malik 2018
 # v1.0, 12 November 2018
 ############################################################################
