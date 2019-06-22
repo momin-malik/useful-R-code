@@ -1,5 +1,5 @@
 #######################################################
-# ORIGINAL: #
+# HEADER OF ORIGINAL SCRIPT: #
 #######################################################
 # This file produces the video of an SABM set of simulated chains.
 # It relies on one sub-script, which is called individually (see "source").
