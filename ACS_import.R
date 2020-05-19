@@ -1,8 +1,8 @@
 ############################################################################
 # This script takes data from the US Census Bureau's MDAT tool for
-# American Community Survey (ACS) "Public Use Microdata" (PUMA), which
-# is output as annoyingly nested contingency tables, and puts it into 
-# a "tidy" format.
+# American Community Survey (ACS) "Public Use Microdata Sample" (PUMS), 
+# which is output as annoyingly nested contingency tables, and puts it
+# into a "tidy" format where it can be manipulated as needed. 
 # 
 # I HAVE NOT TESTED THIS EXTENSIVELY. My use case had 3 column 
 # variables and 3 row variables, ~565K total cells. 
