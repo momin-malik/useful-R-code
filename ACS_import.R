@@ -1,23 +1,25 @@
 ############################################################################
 # This script takes data from the US Census Bureau's MDAT tool for
-# American Community Survey (ACS) data, which is output as nested 
-# contingency tables, and puts it into a "tidy" format.
+# American Community Survey (ACS) "Public Use Microdata" (PUMA), which
+# is output as annoyingly nested contingency tables, and puts it into 
+# a "tidy" format.
 # 
 # I HAVE NOT TESTED THIS EXTENSIVELY. My use case had 3 column 
-# variables and 3 row variables. 
+# variables and 3 row variables, ~565K total cells. 
 # 
 # PLEASE! Use the commented-out View() commands to verify that 
-# the ordering is the same, and do some spot checks of values
-# for any use of this script. 
+# the script orders variables the same, as the ACS file, and do\
+# some spot checks of values afterwards. 
 # 
 # Unfortunately, it may be necessary to specify the names of row 
-# variables, as for me the middle of the 3 row variables did not 
+# variables; as, for me, the middle of the 3 row variables did not 
 # have its name appear anywhere in the export.csv file. 
 # 
 # TODO: Code to automatically extract column names, at least. 
 # 
 # (c) Momin M. Malik 2020
 # v1.0, 19 May 2020
+# MIT License
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
