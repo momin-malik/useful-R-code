@@ -66,7 +66,7 @@ changeSciNot <- function(n) {
 ccdf <- function(x, ...) {
   tmp <- table(x)
   x <- as.numeric(rownames(tmp))
-  y <- 1 - cumsum(tmp)/sum(tmp)
+  y <- c(1, (1 - cumsum(tmp)/sum(tmp))[-length(x)])
   plot(x, y, 
        ylab = "P(X > x)",
        log = "xy", 
