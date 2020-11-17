@@ -31,8 +31,6 @@
 # TODO: More carefully cut off additional x-axis ticks above max
 # TODO: Make option for lines instead of lines(type = "b"), and for color
 # TODO: Automatic axis las and cex determination, maybe push xlab and ylab out
-# TODO? Instead of cuting off last x-axis point, shift x-values back
-# and plot P(X >= x)? Or make option to do that?
 # 
 # (c) Momin M. Malik 2018
 # v0.9, 24 July 2018
