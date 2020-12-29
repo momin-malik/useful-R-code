@@ -4,7 +4,7 @@ Some useful R functions I've made. These are unfinished in terms of testing and 
 `ACS_import.R` is a script to import "Public Use Microdata Sample" (PUMS) from the US Census Bureau's American Community Survey, as outputed as "export.csv" by the MDAT tool (https://data.census.gov/mdat/). See disclaimers within the file. 
 
 `ccdf.R` makes complementary [empirical] cumulative density function plots, the best practice for plotting long-tailed distributions as recommended in Aaron Clauset, Cosma Rohilla Shalizi, and Mark E. J. Newman, "Power-law distributions in empirical data," _SIAM Review_ 51, No. 3 (2009): 661-703. [doi: 10.1137/070710111](https://dx.doi.org/10.1137/070710111).
-![ccdf](https://raw.githubusercontent.com/momin-malik/useful-R-code/master/ccdf_example2.png)
+![ccdf](https://raw.githubusercontent.com/momin-malik/useful-R-code/master/ccdf_example.png)
 
 `igraph_triad_census_plot.R` makes triad census dotplots using the actual triad subgraphs as labels, using the `igraph` package. 
 ![igraph_triad_census_plot](https://raw.githubusercontent.com/momin-malik/useful-R-code/master/igraph_triad_census_plot_example2.png)
