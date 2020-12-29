@@ -14,67 +14,64 @@
 #   volume = {51},
 #   year = {2009}
 # }
-# 
-# There's a lot to fix to make this a flexible function, but I've re-used this
-# code a lot for myself and want to share it. 
-# 
 # Plotting parameters are designed to look somewhat like what MATLAB produces,
 # but (hopefully) nicer.
-# 
 # CAUTION: This code does not have much built-in flexibility yet. I made it for
-# for long-tailed count data, so for example you would need to change some
-# parameters if you have x-values between 0 and 1. 
-# 
-# TODO: Make ifelse for table input vs vector input
+# for long-tailed *count* data, so for example you would need to change some
+# code if you have x-values between 0 and 1. 
 # TODO: Make ifelse for only one or neither axis in log scale
-# TODO: Add min for x-axis grid and labels, for x values between 0 and 1
-# TODO: More carefully cut off additional x-axis ticks above max
-# TODO: Make option for lines instead of lines(type = "b"), and for color
-# TODO: Automatic axis las and cex determination, maybe push xlab and ylab out
+# By Momin M. Malik, 2018-2020, momin.malik@gmail.com
 # 
-# (c) Momin M. Malik 2018
-# v0.9, 24 July 2018
+# This project is licensed under the terms of the MIT license.
+# v1.0, 29 December 2020
 ############################################################################
 
-# Pretty printing of scientific notation, via
-# https://stackoverflow.com/questions/29785555/in-r-using-scientific-notation-10-rather-than-e
-changeSciNot <- function(n) {
-  output <- format(n, scientific = TRUE) # Transforms the number into scientific notation even if small
-  output <- sub("e", "%*%10^", output) # Replace e with 10^
-  output <- sub("\\+0?", "", output) # Remove + symbol and leading zeros on expoent, if > 1
-  output <- sub("-0?", "-", output) # Leaves - symbol but removes leading zeros on expoent, if < 1
-  output
+# Pretty printing of scientific notation
+changeSciNot <- function(num, tenonly = FALSE) {
+  # Transforms the number into scientific notation even if small
+  output <- format(num, format = "g", digits = 1, scientific = TRUE)
+  # Replace e with 10^, only if it is a multiple of 10
+  output <- sub("e", ifelse(tenonly && substr(as.character(output), 1, 1) == "1", 
+                            "10^", "%*%10^"), output)
+  # Remove + symbol and leading zeros on exponent, if > 1
+  output <- sub("\\+0?", "", output)
+  # Leaves - symbol but removes leading zeros on exponent, if < 1
+  output <- sub("-0?", "-", output)
+  if (tenonly) {
+    output <- sub("110", "10", output)
+  }
+  return(output)
 }
 
-# # If you've already made a count-frequency table via table(x), you can
-# # replace the first four lines with these three lines:
-# ccdf <- function(count, freq, ...) {
-#   x <- count
-#   y <- 1 - cumsum(freq)/sum(freq)
-# Otherwise, the function inputs the vector of the distribution
-
-# # If either the count of frequency is better plotted in linear scale,
-# # you will need to replace code internally, e.g., log="y", and:
-# axis(1,
-#      seq(5,50,5),
-#      labels = as.character(seq(5,50,5)))
-
-# You might need to adjust the cex and/or las of the x-axis, axis(1,...)
-
-ccdf <- function(x, ...) {
-  tmp <- table(x)
+ccdf <- function(v, 
+                 is.table = FALSE,
+                 addone = FALSE, 
+                 scientific = TRUE, 
+                 tenonly.x = FALSE, 
+                 tenonly.y = FALSE, 
+                 cex.axis.x = .8,
+                 cex.axis.y = .8,
+                 las.x = 2,
+                 las.y = 2,
+                 type = "b",
+                 pch = 19,
+                 col = 2,
+                 cex = .5,
+                 ...) {
+  if (is.table) {tmp <- v} else {tmp <- table(v)}
   x <- as.numeric(rownames(tmp))
+  if (addone) {x <- x + 1}
   y <- c(1, (1 - cumsum(tmp)/sum(tmp))[-length(x)])
-  plot(x, y, 
+  plot(x, y,
        ylab = "P(X > x)",
-       log = "xy", 
+       log = "xy",
        type = "n",
        axes = F,
-       xlab = "x",
-       xlim = c(min(x[-length(x)]),max(x[-length(x)])),
+       xlab = ifelse(addone, "x + 1", "x"),
+       xlim = c(max(1,min(x[-length(x)])),max(x[-length(x)])),
        ylim = c(min(y[-length(x)]),max(y[-length(y)])),
        ...
-  ) # Ignore the warning
+  )
   xmax <- ceiling(log10(max(x[-length(x)])))
   ymin <- floor(log10(min(y[-length(y)])))
   abline( # vertical log-scale grid lines for x-axis
@@ -87,31 +84,36 @@ ccdf <- function(x, ...) {
     lty = 3,
     col = colors()[ 440 ]
   )
-  axis(1, # x-axis log-scale labels
-       as.vector(t(t(c(1,2,5)))%*%t(10^(0:xmax))),
-       labels = parse(text=changeSciNot(
-         prettyNum(as.vector(t(t(c(1,2,5)))%*%t(10^(0:xmax))), format = "g")
-       )),
-       las = 3, # las = 1 is horizontal, las = 2 is vertical
-       cex.axis = 1
-  )
-  axis(2, # y-axis log-scale labels
-       as.vector(t(t(c(1,2,5)))%*%t(10^(-1:ymin))),
-       labels = parse(text=changeSciNot(
-         prettyNum(as.vector(t(t(c(1,2,5)))%*%t(10^(-1:ymin))), format = "g")
-       )),
-       las = 2,
-       cex.axis = 1
-  )
+  at.x <- if (tenonly.x) {10^(0:xmax)} else {as.vector(t(t(c(1,2,5)))%*%t(10^(0:xmax)))}
+  at.y <- if (tenonly.y) {10^(-1:ymin)} else {as.vector(t(t(c(1,2,5)))%*%t(10^(-1:ymin)))}
+  axis(side = 1, # x-axis log-scale labels
+       at = at.x, 
+       labels = if(scientific) {parse(text=changeSciNot(at.x, 
+                                                        tenonly.x))} else {at.x},
+       las = las.x, # las = 1 is horizontal, las = 2 is vertical
+       cex.axis = cex.axis.x)
+  axis(side = 2, # y-axis log-scale labels
+       at = at.y, 
+       labels = if(scientific) {parse(text=changeSciNot(at.y, 
+                                                        tenonly.y))} else {at.y},
+       las = las.y,
+       cex.axis = cex.axis.y)
   box()
-  print(lines(x,
-        y,
-        type="b",pch=19,col=2,cex=0.5))
+  lines(x, y,
+        type = type, pch = pch, col = col, cex = cex)
 }
 
+# If you have VGAM installed:
+ccdf(VGAM::rzipf(n = 1e4, N = 1e7, shape = .999), 
+     main = "Zipf distribution")
+ccdf(VGAM::rzipf(n = 1e4, N = 1e7, shape = .999), 
+     main = "Zipf distribution", 
+     las.x = 2)
+ccdf(VGAM::rzipf(n = 1e4, N = 1e7, shape = .999), 
+     main = "Zipf distribution", 
+     tenonly.x = T, 
+     tenonly.y = T)
 
-# Examples:
-ccdf(VGAM::rzipf(n = 1e4, N = 1e7, shape = .999), main = "Zipf distribution")
-
-# If you have the poweRlaw package installed:
-ccdf(poweRlaw::rpldis(n=1e4, xmin=4, alpha = 1.5), main = "Discrete power law distribution")
+# If you have the poweRlaw installed:
+ccdf(poweRlaw::rpldis(n=1e4, xmin=4, alpha = 1.5), 
+     main = "Discrete power law distribution")
