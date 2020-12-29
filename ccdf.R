@@ -68,20 +68,22 @@ ccdf <- function(v,
        type = "n",
        axes = F,
        xlab = ifelse(addone, "x + 1", "x"),
-       xlim = c(max(1,min(x[-length(x)])),max(x[-length(x)])),
-       ylim = c(min(y[-length(x)]),max(y[-length(y)])),
+       xlim = c(max(1,min(x)),max(x)),
+       ylim = c(min(y),max(y)),
        ...
   )
-  xmax <- ceiling(log10(max(x[-length(x)])))
-  ymin <- floor(log10(min(y[-length(y)])))
+  xmax <- ceiling(log10(max(x)))
+  ymin <- floor(log10(min(y)))
   abline( # vertical log-scale grid lines for x-axis
     v = as.vector(t(t(1:9))%*%t(10^(0:xmax))),
-    lty = 3,
+    lty = 1, 
+    lwd = .5,
     col = colors()[ 440 ]
   )
   abline( # horizontal log-scale grid lines for y-axis
     h = as.vector(t(t(1:9))%*%t(10^(-1:ymin))),
-    lty = 3,
+    lty = 1, 
+    lwd = .5,
     col = colors()[ 440 ]
   )
   at.x <- if (tenonly.x) {10^(0:xmax)} else {as.vector(t(t(c(1,2,5)))%*%t(10^(0:xmax)))}
@@ -115,5 +117,9 @@ ccdf(VGAM::rzipf(n = 1e4, N = 1e7, shape = .999),
      tenonly.y = T)
 
 # If you have the poweRlaw installed:
+png("ccdf_example.png", width = 1200, height = 800, res = 120)
 ccdf(poweRlaw::rpldis(n=1e4, xmin=4, alpha = 1.5), 
-     main = "Discrete power law distribution")
+     main = "Discrete power law distribution", 
+     las.x = 1, 
+     tenonly.x = T)
+dev.off()
