@@ -56,3 +56,5 @@ lower  A  B  C  D  E  F  G  H  I  J
 > class(as.matrix.table(tab))
 [1] "matrix" "array"
 ```
+
+`duplicates.R` contains three functions to get both duplicate observations, and the observation of which they are duplicates (i.e., the intersection of `duplicated()` and `duplicated(fromLast=T)`, which is also how I actually do it; not the most efficient but it's very lightweight). This is useful, for example, for comparing rows that are duplicated according to some subset of columns, to see why they are not complete duplicates of each other across all columns. `duplicates()` returns all of a set of duplicate observations, `which.duplicates()` gives the row indexes, and `View.duplicates()` opens a `View()` window of the duplicates for exploration. 
