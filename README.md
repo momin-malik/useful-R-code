@@ -1,4 +1,4 @@
-# useful-R-code
+# useful R code
 Some useful R functions I've made. These are unfinished in terms of testing and finessing, but usable and hopefully useful for others. 
 
 `ACS_import.R` is a script to import "Public Use Microdata Sample" (PUMS) from the US Census Bureau's American Community Survey, as outputed as "export.csv" by the MDAT tool (https://data.census.gov/mdat/). See disclaimers within the file. 
